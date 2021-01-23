@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign in</title>
+</head>
+<body>
+{{ error }}
+<form action={% url "accounts:signupuser" %} method="POST">
+    <label>email</label>
+    <input type="email" name="email" size="50" maxlength="30" required />
+    <label>password1</label>
+    <input type="password1" name="password1" size="50" maxlength="30" required />
+    <label>password2</label>
+    <input type="password2" name="password2" size="50" maxlength="30" required/>
+    {% csrf_token %}
+    <button type="submit">Zarejestruj się</button>
+</form>
+
+</body>
+</html>
