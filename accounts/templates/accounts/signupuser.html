@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign in</title>
+</head>
+<body>
+{{ error }}
+<form action={% url "accounts:signupuser" %} method="POST">
+    <label>E-mail</label>
+    <input type="email" name="email" size="50" maxlength="30" required />
+    <br>
+    <label>Password</label>
+    <input type="password" name="password1" size="30" maxlength="30" required />
+    <br>
+    <label>Confirm password</label>
+    <input type="password" name="password2" size="30" maxlength="30" required/>
+    {{ not_match_error }}
+    {% csrf_token %}
+    <button type="submit">Zarejestruj się</button>
+
+<ul>
+    {% for error in password_error %}
+        <li>{{ error }}</li>
+    {% endfor %}
+</ul>
+</form>
+
+</body>
+</html>
