@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts',
     'todo',
+    'verify_email',
 ]
 
 MIDDLEWARE = [
@@ -124,3 +125,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = 'accounts.User'
+
+# poniżej potrzebne do django sendgrid
+EMAIL_BACKEND = 'sendgrid_backend.SendgridBackend'
+SENDGRID_API_KEY = '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' # dostajemy po zrobieniu na sendgridzie new api key
+SENDGRID_SANDBOX_MODE_IN_DEBUG = False
+
+DEFAULT_FROM_EMAIL = 'ToDo Manager<mikegorlomi@gmail.com>'
+

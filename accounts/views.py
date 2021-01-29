@@ -3,6 +3,10 @@ from accounts.models import User
 from django.db import IntegrityError
 from django.contrib.auth.password_validation import validate_password # do validacji hasła
 from  django.core.exceptions import ValidationError # potrzebne do walidacji hasła
+from django.core.mail import EmailMessage
+from accounts.forms import SignUpForm
+from verify_email.email_handler import send_verification_email
+
 # Create your views here.
 
 
@@ -23,7 +27,15 @@ def signupuser(request):
                 #password_error = list(e)[0]
                 return render(request, 'accounts/signupuser.html', {'password_error': e})
             else:
-                user.save()
+                """
+                sprawdzenie wysyłania maila
+                msg = EmailMessage('New account', "You've created a new account.", 'ToDo Manager<mikegorlomi@gmail.com>',
+                                  [request.POST['email']])
+                msg.send()
+                """
+                inactive_user = send_verification_email(request, form=SignUpForm(request.POST))
+                #powyższa funkcja już zapisuje usera
+                # user.save()
                 return redirect('home')
         else:
             not_match_error = "Password didn't match. Try again!"

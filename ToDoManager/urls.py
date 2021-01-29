@@ -19,9 +19,9 @@ from todo import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-
+    path('', views.home, name='home'),
     #auth
     path('auth/', include('accounts.urls')),
+    path('verification/', include('verify_email.urls')),
 
-    path('', views.home, name='home')
 ]
