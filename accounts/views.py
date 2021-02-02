@@ -12,7 +12,7 @@ from verify_email.email_handler import send_verification_email
 
 def signupuser(request):
     if request.method == 'GET':
-        return render(request, 'accounts/signupuser.html')
+        return render(request, 'accounts/signupuser.html', {'form': SignUpForm()})
     else:
         if request.POST['password1'] == request.POST['password2']:
             try:
@@ -33,10 +33,17 @@ def signupuser(request):
                                   [request.POST['email']])
                 msg.send()
                 """
-                inactive_user = send_verification_email(request, form=SignUpForm(request.POST))
+                try:
+                    inactive_user = send_verification_email(request, form=SignUpForm(request.POST))
+                except ValueError:
+                    error = 'This username is already taken.'
+                    return render(request, 'accounts/signupuser.html', {'error': error})
+                else:
+                    return redirect('home')
                 #powyższa funkcja już zapisuje usera
                 # user.save()
-                return redirect('home')
+
         else:
             not_match_error = "Password didn't match. Try again!"
             return render(request, 'accounts/signupuser.html', {'not_match_error': not_match_error})
+
