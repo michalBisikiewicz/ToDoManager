@@ -1,1 +1,9 @@
-home page
+
+{% if user.is_authenticated %}
+    Logged in as {{ user }}
+
+    {% else %}
+    <a href="{%  url 'accounts:signupuser' %}">Sign Up<</a>
+    <a href="{%  url 'accounts:login' %}">Log in<</a>
+
+{% endif %}
