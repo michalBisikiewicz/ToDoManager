@@ -26,7 +26,6 @@ def signupuser(request):
             try:
                 validate_password(request.POST['password1'], user=user)
             except ValidationError as e:
-                #password_error = list(e)[0]
                 return render(request, 'accounts/signupuser.html', {'password_error': e})
             else:
                 """
@@ -42,9 +41,6 @@ def signupuser(request):
                     return render(request, 'accounts/signupuser.html', {'error': error})
                 else:
                     return redirect('home')
-                #powyższa funkcja już zapisuje usera
-                # user.save()
-
         else:
             not_match_error = "Password didn't match. Try again!"
             return render(request, 'accounts/signupuser.html', {'not_match_error': not_match_error})
@@ -61,20 +57,22 @@ def login_user(request):
             return render(request, 'accounts/login.html', {'form': AuthenticationForm(),
                                                            'wrong_email': wrong_email}, )
         else:
-            pass
-        '''
-        user = authenticate(email=request.POST['username'], password=request.POST['password'])
-        if user is not None:
-            login(request, user)
-            return redirect('home')
-        else:
-            password_error = 'Incorrect password. Try again!'
-            return render(request, 'accounts/login.html', {'form': AuthenticationForm(),
-                                                           'password_error': password_error},
-                          )
-        '''
+            active_user = User.objects.filter(email=email, is_active=True)
+            if not active_user.exists():
+                not_active = 'Your account is not active. Check your email.'
+                return render(request, 'accounts/login.html', {'form': AuthenticationForm(),
+                                                           'not_active': not_active}, )
+            else:
+                user = authenticate(email=request.POST['username'], password=request.POST['password'])
+                if user is not None:
+                    login(request, user)
+                    return redirect('home')
+                else:
+                    password_error = 'Incorrect password. Try again!'
+                    return render(request, 'accounts/login.html', {'form': AuthenticationForm(),
+                                                                   'password_error': password_error})
 
 
-def logout_view(request):
+def logout_user(request):
     logout(request)
-    redirect('home')
+    return redirect('home')
