@@ -24,6 +24,9 @@ urlpatterns = [
     path('auth/', include('accounts.urls')),
     path('verification/', include('verify_email.urls')),
 
+    #todos
+    path('todos/', views.todos, name='todos'),
+
 ]
 
 

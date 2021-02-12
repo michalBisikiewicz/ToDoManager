@@ -11,3 +11,6 @@ class ToDo(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True)
     complete_date = models.DateTimeField(blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.title
